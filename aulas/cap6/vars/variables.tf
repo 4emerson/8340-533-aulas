@@ -8,7 +8,7 @@ variable "regiao" {
 variable "zone" {
     description = "Variavel para a zona de disponibilidade"
     type = string
-    default = "us-east-2c"
+    default = "us-east-2b"
 }
 
 variable "ami" {
@@ -40,7 +40,7 @@ variable "instance_type" {
 variable "associate_public_ip_address" {
     type = bool
     description = "Variavel para associar ou nao um ip publico a maquina virtual"
-    default = false
+    default = true
 }
 
 
