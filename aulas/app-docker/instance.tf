@@ -9,21 +9,30 @@ resource "aws_instance" "minha-instancia" {
   tags = {
     Name = var.name
   }
+}
+
+resource "null_resource" "supermario_install" {
+  triggers = {
+    instance_id = aws_instance.minha-instancia.id
+    run         = "1"
+  }
 
   provisioner "local-exec" {
     command = <<EOF
-    sleep 30
-    ssh -o StrictHostKeyChecking=no \
+sleep 30
+ssh -o StrictHostKeyChecking=no \
     -i ${var.key_path}/${var.key_name}.pem \
-    admin@${self.public_ip} \
-    'sudo apt-get update -y && \
-     sudo apt-get install ngixn -y && \
-     sudo systemctl start nginx && \
-     sudo apt-get install -y docker.io && \
-     sudo systemctl start docker && \
-     sudo docker run -d -p 8600:8080 pengbai/docker-supermario'
-    EOF
-
+    admin@${aws_instance.minha-instancia.public_ip} \
+    'sudo apt install nginx -y ; command -v docker > /dev/null 2>&1 || (sudo apt-get update -y && sudo apt-get install -y docker.io) ; \
+     sudo systemctl start docker ; \
+     if sudo docker ps -a --format "{{.Names}}" | grep -q "^supermario$"; then \
+       echo "Container supermario ja existe, pulando..."; \
+     else \
+       sudo docker run -d --name supermario -p 8600:8080 pengbai/docker-supermario; \
+     fi'
+EOF
   }
+
+  depends_on = [aws_instance.minha-instancia]
 }
 

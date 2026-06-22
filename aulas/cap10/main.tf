@@ -9,7 +9,8 @@ module "network" {
 }
 
 module "instance" {
-  source = "git::https://gitlab.com/terraform-modules5763025/aws-instance.git?ref=v1.4"
+  #source = "git::https://oauth2:TOKEN@gitlab.com/terraform-modules5763025/aws-instance.git?ref=v1.4"
+  source = "git@gitlab.com:terraform-modules5763025/aws-instance.git?ref=v1.4"
 
   name          = "vm-cap10-modulo"
   instance_type = "t3.micro"
