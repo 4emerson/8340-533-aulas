@@ -70,10 +70,11 @@ module "ec2_instance" {
 module "alb" {
   source = "terraform-aws-modules/alb/aws"
   depends_on = [ module.ec2_instance ]
-  version = "~> 10.0"
+  version = "~> 10.0" 
 
-  name    = "alb-cap11"
-  vpc_id  = module.vpc.vpc_id
+  name                       = "alb-cap11"
+  enable_deletion_protection = false
+  vpc_id                     = module.vpc.vpc_id
   subnets = [module.vpc.public_subnets[0], module.vpc.public_subnets[1]]
 
   security_group_ingress_rules = {
