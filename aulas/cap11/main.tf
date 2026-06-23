@@ -31,6 +31,13 @@ module "security_group" {
       protocol    = "tcp"
       description = "SSH"
       cidr_blocks = "0.0.0.0/0"
+    },
+    {
+      from_port   = 80
+      to_port     = 80
+      protocol    = "tcp"
+      description = "HTTP"
+      cidr_blocks = "0.0.0.0/0"
     }
   ]
 
@@ -62,6 +69,8 @@ module "ec2_instance" {
 
 module "alb" {
   source = "terraform-aws-modules/alb/aws"
+  depends_on = [ module.ec2_instance ]
+  version = "~> 10.0"
 
   name    = "alb-cap11"
   vpc_id  = module.vpc.vpc_id
@@ -104,11 +113,12 @@ module "alb" {
 
   target_groups = {
     ex-instance = {
-      name_prefix  = "h1"
-      protocol     = "HTTP"
-      port         = 80
-      target_type  = "instance"
-      target_id    = "i-0f1d462a2ccf78b50"
+      name_prefix       = "h1"
+      protocol          = "HTTP"
+      port              = 80
+      target_type       = "instance"
+      target_id         = module.ec2_instance.id
+      create_attachment = true
     }
   }
 
