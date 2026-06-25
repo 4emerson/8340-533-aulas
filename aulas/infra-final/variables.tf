@@ -80,6 +80,24 @@ variable "cidr_qualquer_rede" {
 
 variable "instance_type" {
     type = string
-    default = "t3-micro"
+    default = "t3.micro"
+  
+}
+
+variable "asg_min" {
+  type = number
+  default = 1
+  
+}
+
+variable "asg_max" {
+  type = number
+  default = 2
+  
+}
+
+variable "asg_desired" {
+  type = number
+  default = 1
   
 }
