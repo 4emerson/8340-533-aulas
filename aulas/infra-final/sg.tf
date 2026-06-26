@@ -42,6 +42,14 @@ resource "aws_security_group" "instancias" {
     cidr_blocks = [var.cidr_qualquer_rede]
   }
 
+  ingress {
+    from_port   = var.porta_http
+    to_port     = var.porta_http
+    protocol    = "tcp"
+    cidr_blocks = [var.cidr_qualquer_rede]
+  }
+
+
   egress {
     from_port   = 0
     to_port     = 0

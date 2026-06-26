@@ -12,6 +12,7 @@ data "aws_ami" "amazon_linux" {
 resource "aws_launch_template" "this" {
     name_prefix = format("%s-lt-%s", var.nome, terraform.workspace)
     image_id = data.aws_ami.amazon_linux.id
+    key_name = "curso-533-key"
     instance_type = var.instance_type
 
     network_interfaces {

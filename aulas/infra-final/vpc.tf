@@ -32,7 +32,7 @@ resource "aws_subnet" "public_a" {
 resource "aws_subnet" "public_b" {
   vpc_id                  = aws_vpc.this.id
   cidr_block              = var.subnet_cidr_block_b
-  availability_zone       = var.az_a
+  availability_zone       = var.az_b
   map_public_ip_on_launch = var.map_public_ip_on_launch
 
   tags = {
